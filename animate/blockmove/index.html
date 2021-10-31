@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <style>
+            body {
+                font-size: large;
+                color: white;
+                background-color: black;
+            }
+            #wrapper {
+                margin-top: 10vh;
+                position: relative;
+                /* display: grid;
+                grid-template-columns: repeat(20, 1em);
+                grid-template-rows: repeat(20, 1em); */
+                outline: 1em solid;
+                margin-left: auto;
+                margin-right: auto;
+                width: 20em;
+                height: 20em;
+            }
+
+            .pc {
+                width: 1em;
+                height: 1em;
+                background-color: white;
+                position: absolute;
+                transition-duration: 500ms, 100ms, 100ms;
+                transition-property: transform, left, top;
+            }
+        </style>
+    </head>
+    <body>
+        <div id='wrapper'>
+
+        </div>
+    </body>
+    <script src="index.js"></script>
+</html>

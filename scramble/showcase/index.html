@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <style>
+            body {
+                color: white;
+                background-color: black;
+            }
+            .char {
+                display: grid;
+                grid-template-columns: repeat(3, 1em);
+                grid-template-rows: repeat(5, 1em);
+                width: 3em;
+                height: 5em;
+                margin: 0;
+                outline: 1px solid blue
+            }
+            #display {
+                display: grid;
+                grid-template-columns: repeat(12, 4em);
+                width: 70vw;
+                margin: auto;
+                margin-top: 20vh;
+
+            }
+        </style>
+    </head>
+    <body>
+        <div id='display'>
+
+        </div>
+    </body>
+    <script src='index.js'></script>
+</html>

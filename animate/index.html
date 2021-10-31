@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <style>
+            body {
+                color: white;
+                background-color: black;
+            }
+            #blocks {
+                display:flex;
+                width: 50vh;
+                margin: auto;
+                margin-top: 30vh;
+                border: 1px solid;
+            }
+            .block {
+                width: 5em;
+                height: 5em;
+            }
+
+            #First {
+                animation-duration: 5s;
+                animation-name: colcycle;
+                animation-iteration-count: infinite;
+            }
+
+            @keyframes colcycle {
+                0%, 100% {
+                    background-color: red;
+                }
+                8%, 92% {
+                    background-color: orange;
+                }
+                16%, 84% {
+                    background-color: yellow;
+                }
+
+                24%, 76%{
+                    background-color: green;
+                }
+
+                32%, 68% {
+                    background-color: blue;
+                }
+
+                40%, 60% {
+                    background-color: indigo;
+                }
+
+                48%, 52% {
+                    background-color: violet;
+                }
+
+                /* 50% {
+                    background-color: violet;
+                }
+                to {
+                    background-color: red;
+                } */
+            }
+        </style>
+    </head>
+    <body>
+        <div id='blocks'>
+            <div class='block' id='First'></div>
+            <div class='block' id='2'></div>
+            <div class='block' id='3'></div>
+            <div class='block' id='4'></div>
+        </div>
+    </body>
+    <!-- <script src='index.js'></script> -->
+</html>

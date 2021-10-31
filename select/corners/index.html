@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <style>
+            :root {
+                --ratio: 2em;
+                --max: 20em;
+            }
+            body {
+                color: white;
+                background-color: black;
+            }
+            .wrapper {
+                margin: auto;
+                margin-top: 10vh;
+                position: relative;
+                /* width: 10em; */
+                width: var(--max);
+                height: var(--max);
+            }
+            .map {
+                position: absolute;
+                left: 0;
+                top: 0;
+                display: grid;
+                grid-template-rows: repeat(10, var(--ratio));
+                grid-template-columns: repeat(10, var(--ratio));
+                margin:0;
+                width: 100%;
+                height: 100%;
+            }
+            .selectionBlock {   
+                width: var(--ratio);
+                height: var(--ratio);
+                opacity: 50%;
+                background-color: white;
+                outline: 0.1em solid;
+            }
+        </style>
+    </head>
+    <body>
+        <div class='wrapper'>
+
+            <div id='base'>
+                <div class='map' id='selector' draggable="false"></div>
+            </div>
+        </div>
+    </body>
+    <script src='index.js'></script>
+</html>

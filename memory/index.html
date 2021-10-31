@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <style>
+            :root {
+                --width: 13;
+                --height: 4;
+            }
+            body {
+                color: white;
+                background-color: black;
+                font-size: xx-large;
+            }
+            #playarea {
+                display: grid;
+                grid-template-rows: repeat(var(--width), 2em);
+                grid-template-columns: repeat(var(--height), 2em);
+                background-color: blueviolet;
+                gap: 0.1em;
+                /* width: 20em;
+                height: 20em; */
+                margin: auto;
+                margin-top: 10vh;
+            }
+            .card {
+                background-color: blue;
+                outline: .1em solid green;
+                width: 2em;
+                height: 2em;
+                /* font-family: 'Courier New', Courier, monospace; */
+                display: flex;
+                align-items: center;
+                text-align: center;
+                justify-content: space-around;
+            }
+        </style>
+    </head>
+    <body>
+        <div id='playarea'>
+
+        </div>
+    </body>
+    <script src='index.js'></script>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <style>
+            body {
+                color: white;
+                background-color: black;
+                /* font-size: xx-large; */
+            }
+            .char {
+                display: grid;
+                grid-template-columns: repeat(3, 3em);
+                grid-template-rows: repeat(5, 3em);
+                width: 9em;
+                height: 15em;
+                margin: 1em;
+                outline: 1em solid blue
+            }
+            .charCell {
+                transition: background-color 100ms
+            }
+            .textgroup {
+                display:flex;
+                flex-direction: row;
+                outline: 1em solid;
+            }
+
+            .wrapper {
+                width: 70vw;
+                height:80vh;
+                margin: auto;
+                margin-top: 20vh;
+                display: grid;
+                grid-template-rows: 1fr 1fr;
+            }
+        </style>
+    </head>
+    <body>
+        <div class='wrapper'>
+            <div id='display'></div>
+            <div id='seed'>0</div>
+        </div>
+    </body>
+    <script src='index.js'></script>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <style>
+            body {
+                margin: 0;
+            }
+            #palette {
+                position: absolute;
+                display:flex;
+                flex-direction: column;
+                left: 5vw;
+                top: 5vh;
+                width: 5em
+            }
+            #paint {
+                margin: 0;
+                width: 100vw;
+                height: 100vh;
+                display: grid;
+                color: white;
+                background-color: black;
+                grid-template-columns: repeat(auto-fill, 1em);
+                grid-template-rows: repeat(auto-fill, 1em);
+                overflow: hidden;
+            }
+        </style>
+    </head>
+    <body>
+        <div id='palette'>
+            <button id='play'>Play</button>
+            <button id='switchMode'></button>
+            <button id='clear'>Clear</button>
+        </div>
+        <div id='paint'>
+
+        </div>
+    </body>
+    <script src='index.js'></script>
+</html>
