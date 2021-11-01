@@ -60,9 +60,8 @@ const checkMove = () => {
     let last
     /** @param {DOMHighResTimeStamp} timestamp */
     const step = (timestamp) => {
-        if (last === undefined) {
-            last = timestamp
-        }
+        if (last === undefined) last = timestamp
+        
         const delta = (timestamp - last)/1000
         last = timestamp
 
