@@ -66,9 +66,6 @@ const checkMove = () => {
         const delta = (timestamp - last)/1000
         last = timestamp
 
-        console.log(timestamp)
-        console.log(delta)
-
         // Check player movement
         const [x, y] = checkMove()
         player.x = player.x + (speed * x * delta)
