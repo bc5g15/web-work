@@ -30,6 +30,7 @@ document.addEventListener('keyup', (e) => {
     keys.delete(e.key)
 })
 
+const root2 = Math.sqrt(2)
 const checkMove = () => {
     let x = 0
     if (keys.has('ArrowLeft')) {
@@ -43,6 +44,11 @@ const checkMove = () => {
         y = -1
     } else if (keys.has('ArrowDown')) {
         y = +1
+    }
+
+    if (x !== 0 && y !== 0) {
+        x = x / root2
+        y = y / root2
     }
 
     return [x, y]
