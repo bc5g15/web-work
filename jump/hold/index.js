@@ -59,7 +59,7 @@ const jumpHeld = (player, jumpForce) => {
 }
 
 const jumpReleased = (player) => {
-    const hoverValue = -10
+    const hoverValue = -25
     if (player.dy < hoverValue) {
         player.dy = hoverValue
     }
