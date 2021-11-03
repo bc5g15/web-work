@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <style>
+            body {
+                color: white;
+                background-color: black;
+            }
+
+            #game {
+                width: 50em;
+                height: 50em;
+                margin: auto;
+                margin-top: 10vh;
+                position: relative;
+                border: .1em solid;
+                overflow: hidden;
+            }
+
+            .player {
+                width: 5em;
+                height: 5em;
+                position: absolute;
+                background-color: red;
+                border: .1em solid white;
+            }
+
+            .map {
+                display: grid;
+                grid-template-columns: repeat(2, 50em);
+                grid-template-rows: repeat(2, 50em);
+                transition: transform 500ms;
+                overflow: visible;
+            }
+
+            .room {
+                width:50em;
+                height:50em;
+                position: absolute;
+                inset: 0;
+            }
+
+            #debug {
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+        </style>
+    </head>
+    <body>
+        <div id='debug'></div>
+        <div id='game'></div>
+    </body>
+    <script src='index.js'></script>
+</html>
