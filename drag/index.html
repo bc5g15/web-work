@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <style>
+            body {
+                color: white;
+                background-color: black;
+            }
+
+            #wrapper {
+                width: 70vw;
+                display:grid;
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: 1fr 1fr;
+                gap: 1em;
+                margin: auto;
+                margin-top: 10vh
+            }
+
+            .box {
+                background-color: cadetblue;
+                width: 30vw;
+                height: 20vh;
+            }
+
+            .draggable {
+                background-color: purple;
+            }
+        </style>
+    </head>
+    <body>
+        <div id='wrapper'>
+            <div id='drag1' class='box draggable' draggable="true"></div>
+            <div id='drag2' class='box draggable' draggable="true"></div>
+            <div id='zone1' class='box'></div>
+            <div id='zone2' class='box'></div>
+        </div>
+    </body>
+    <script src='index.js'></script>
+</html>
