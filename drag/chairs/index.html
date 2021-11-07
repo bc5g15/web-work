@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <style>
+            body {
+                color: white;
+                background-color: black;
+            }
+
+            #wrapper {
+                width: 70vw;
+                display:grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 1em;
+                margin: auto;
+                margin-top: 10vh;
+                height: 80vh;
+            }
+
+            .box {
+                background-color: cadetblue;
+                width: 30vw;
+                height: 20vh;
+            }
+
+            .draggable {
+                background-color: purple;
+            }
+
+            #students {
+                display:flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: start;
+                gap: 1em;
+            }
+            #chairs {
+                display:grid;
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: repeat(3, 1fr);
+            }
+
+            .studentcard {
+                border: .2em solid;
+                padding: 1em;
+                width: 10em;
+                height: 1em;
+                display:flex;
+                flex-direction: row;
+                justify-content: space-between;
+            }
+
+            .chair {
+                border: .2em solid;
+                background-color: purple;
+                opacity: 50%;
+                width: 10em;
+                height: 1em;
+                padding: 1em;
+            }
+
+        </style>
+    </head>
+    <body>
+        <div id='wrapper'>
+            <div id='students'>
+
+            </div>
+            <div id='chairs'>
+
+            </div>
+        </div>
+    </body>
+    <script src='index.js'></script>
+</html>
