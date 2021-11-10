@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <style>
+            body {
+                color: white;
+                background-color: black;
+            }
+
+            #wrapper {
+                width: 70vw;
+                display:grid;
+                grid-template-columns: 1fr 2fr;
+                gap: 1em;
+                margin: auto;
+                margin-top: 10vh;
+                height: 80vh;
+            }
+
+            .box {
+                background-color: cadetblue;
+                width: 30vw;
+                height: 20vh;
+            }
+
+            .draggable {
+                background-color: purple;
+            }
+
+            #resources {
+                display:flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: start;
+                gap: 1em;
+            }
+            #tasks {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 1em;
+            }
+
+            .resource {
+                border: .2em solid;
+                padding: 1em;
+                width: 10em;
+                height: 1em;
+                display:flex;
+                flex-direction: row;
+                justify-content: space-between;
+            }
+
+            .task {
+                border: .2em solid gray;
+                width: 10em;
+                height: 4em;
+                padding: 1em;
+                flex: 10em;
+                position: relative;
+            }
+
+        </style>
+    </head>
+    <body>
+        <div id='wrapper'>
+            <div id='resources'>
+
+            </div>
+            <div id='tasks'>
+
+            </div>
+        </div>
+    </body>
+    <script src='index.js'></script>
+</html>
