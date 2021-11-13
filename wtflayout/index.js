@@ -10,7 +10,8 @@ let blockCount = 0
     const controlsContainer = document.getElementById('controls')
 
     const defaultElemInput = document.createElement('textarea')
-    defaultElemInput.value = 'width: 10em; height: 2em;'
+    defaultElemInput.value = 
+        'width: 10em; height: 2em; background-color: orange; border: .2em solid red; opacity: 60%;'
     controlsContainer.appendChild(defaultElemInput)
 
     const addElemButton = document.createElement('button')
@@ -39,7 +40,6 @@ const createElement = (rootElemId, elemStyle) => {
     const elem = document.createElement('div')
     elem.id = `block${blockCount++}`
     elem.style = elemStyle
-    elem.className = 'block'
     elem.onclick = (ev) => selectElement(ev, elem.id)
 
     document.getElementById(rootElemId).appendChild(elem)
