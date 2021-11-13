@@ -8,10 +8,20 @@ let blockCount = 0
 {
     // Create controls 
     const controlsContainer = document.getElementById('controls')
+
+    const defaultElemInput = document.createElement('textarea')
+    defaultElemInput.value = 'width: 10em; height: 2em;'
+    controlsContainer.appendChild(defaultElemInput)
+
     const addElemButton = document.createElement('button')
     addElemButton.innerText = 'Create Element'
-    addElemButton.onclick = () => createElement(currentElement)
+    addElemButton.onclick = () => createElement(currentElement, defaultElemInput.value)
     controlsContainer.appendChild(addElemButton)
+
+    const removeElemButton = document.createElement('button')
+    removeElemButton.innerText = 'Delete Element'
+    removeElemButton.onclick = () => deleteElement(currentElement)
+    controlsContainer.appendChild(removeElemButton)
 
     const displayInput = document.createElement('textarea')
     displayInput.id = 'cssrecord'
@@ -24,12 +34,11 @@ let blockCount = 0
     controlsContainer.appendChild(setDisplayButton)
 }
 
-const createElement = (rootElemId) => {
+const createElement = (rootElemId, elemStyle) => {
     if (!rootElemId) return
     const elem = document.createElement('div')
     elem.id = `block${blockCount++}`
-    elem.style.width = defaultWidth
-    elem.style.height = defaultHeight
+    elem.style = elemStyle
     elem.className = 'block'
     elem.onclick = (ev) => selectElement(ev, elem.id)
 
@@ -46,6 +55,15 @@ const selectElement = (ev, elemId) => {
     elem.style.outline = '1em solid purple'
     currentElement = elemId;
     document.getElementById('cssrecord').value = elem.style.cssText
+}
+
+const deleteElement = (elemId) => {
+    if (elemId !== topelem.id) {
+        const elem = document.getElementById(elemId)
+        const eParent = elem.parentElement
+        eParent.removeChild(elem)
+        currentElement = false
+    }
 }
 
 const setDisplay = (elemId, displaySetting) => {
