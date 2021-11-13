@@ -13,14 +13,14 @@ let blockCount = 0
     addElemButton.onclick = () => createElement(currentElement)
     controlsContainer.appendChild(addElemButton)
 
-    const displayInput = document.createElement('input')
-    displayInput.type = 'text'
-    displayInput.size = '10'
+    const displayInput = document.createElement('textarea')
+    displayInput.id = 'cssrecord'
+    displayInput.value = topelem.style.cssText
     controlsContainer.appendChild(displayInput)
     
     const setDisplayButton = document.createElement('button')
-    setDisplayButton.innerText = 'Set Display'
-    setDisplayButton.onclick = () => setDisplay(currentElement, displayInput.value)
+    setDisplayButton.innerText = 'Set Style'
+    setDisplayButton.onclick = () => setStyle(currentElement, displayInput.value)
     controlsContainer.appendChild(setDisplayButton)
 }
 
@@ -45,11 +45,17 @@ const selectElement = (ev, elemId) => {
     const elem = document.getElementById(elemId)
     elem.style.outline = '1em solid purple'
     currentElement = elemId;
+    document.getElementById('cssrecord').value = elem.style.cssText
 }
 
 const setDisplay = (elemId, displaySetting) => {
     const elem = document.getElementById(elemId)
     elem.style.display = displaySetting
+}
+
+const setStyle = (elemId, styleString) => {
+    const elem = document.getElementById(elemId)
+    elem.style = styleString
 }
 
 topelem.onclick = (ev) => selectElement(ev, 'topcontainer')
