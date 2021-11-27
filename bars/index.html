@@ -16,8 +16,6 @@
             .customProgress {
                 width: 10em;
                 height: 2em;
-                /* --value: 100%; */
-                /* background-color: red; */
                 display: flex;
                 --myVal: calc(var(--value) * 1%);
             }
@@ -38,7 +36,6 @@
                 width: 10em;
                 height: 2em;
                 --myVal: calc(var(--value) * 1%);
-                /* --value: 100%; */
             }
 
             .pokeBar {
@@ -46,7 +43,6 @@
                 width: var(--myVal);
                 --red: calc(100% - var(--myVal));
                 --blue: 0%;
-                /* --blue: calc(100% - abs(100% - var(--value))); */
                 --col: rgb(var(--red), var(--green), var(--blue));
                 --green: var(--myVal);
                 background-color: var(--col, purple);
@@ -55,11 +51,16 @@
             .hueBar {
                 height:100%;
                 width: calc(var(--value) * 1%);
-                /* --check: calc(1 * var(--value)); */
                 --safeVal: clamp(1, var(--value), 100);
                 background-color: green;
                 filter: hue-rotate(calc(-180deg * (1 - (var(--safeVal) / 100))));
-                /* transform: rotate(calc(45deg + var(--check))); */
+            }
+
+            .hslBar {
+                height:100%;
+                --colAngle: calc(130deg * (var(--value) / 100));
+                width: calc(var(--value) * 1%);
+                background-color: hsl(var(--colAngle), 100%, 50%);
             }
         </style>
     </head>
@@ -84,6 +85,10 @@
 
         <div class='pokeHealth'>
             <div class='hueBar'></div>
+        </div>
+
+        <div class='pokeHealth'>
+            <div class='hslBar'></div>
         </div>
     </body>
     <script src='index.js'></script>
