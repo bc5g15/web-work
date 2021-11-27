@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <style>
+            body {
+                color: white;
+                background-color: black;
+            }
+
+            progress {
+                color: green;
+            }
+
+            .customProgress {
+                width: 10em;
+                height: 2em;
+                --value: 100%;
+                /* background-color: red; */
+                display: flex;
+            }
+
+            .progressDone {
+                width: var(--value);
+                background-color: green;
+                height:100%;
+            }
+            
+            .progressRemains {
+                width: calc(100% - var(--value));
+                background-color: red;
+                height: 100%;
+            }
+
+            .pokeHealth {
+                width: 10em;
+                height: 2em;
+                --value: 100%;
+            }
+
+            .pokeBar {
+                height: 100%;
+                width: var(--value);
+                --red: calc(100% - var(--value));
+                --blue: 0%;
+                --col: rgb(var(--red), var(--green), var(--blue));
+                --green: var(--value);
+                background-color: var(--col, purple);
+            }
+        </style>
+    </head>
+    <body>
+        <details>
+            <summary>
+                <label for='hp'>Hit points</label>
+                <progress id='hp' max='100' value='100'></progress>
+            </summary>
+            <progress id='stamina' max='100' value='50'></progress>
+            <progress max='100' value='30'></progress>
+        </details>
+
+        <div class='customProgress' style='--value:60%'>
+            <span class='progressDone'></span>
+            <span class='progressRemains'></span>
+        </div>
+
+        <div id='healthbar' class='pokeHealth'>
+            <div class='pokeBar'></div>
+        </div>
+    </body>
+    <script src='index.js'></script>
+</html>
