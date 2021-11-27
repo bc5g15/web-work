@@ -62,6 +62,16 @@
                 width: calc(var(--value) * 1%);
                 background-color: hsl(var(--colAngle), 100%, 50%);
             }
+
+            .triColor {
+                margin:0;
+                --lowest: 0;
+                --highest: 50;
+                height: 100%;
+                --myRange: clamp(0, calc(var(--value) - var(--lowest)), calc(var(--highest) - var(--lowest)));
+                width: calc(var(--myRange) * 1%);
+            }
+
         </style>
     </head>
     <body>
@@ -89,6 +99,13 @@
 
         <div class='pokeHealth'>
             <div class='hslBar'></div>
+        </div>
+
+        <div class='pokeHealth' style='display:flex'>
+            <div class='triColor' style='background-color: green;'></div>
+            <div class='triColor' style='background-color: yellow; --lowest: 50; --highest: 75;'></div>
+            <div class='triColor' style='background-color: red; --lowest: 75; --highest: 100;'></div>
+
         </div>
     </body>
     <script src='index.js'></script>
