@@ -6,6 +6,7 @@
             body {
                 color: white;
                 background-color: black;
+                --value: 100;
             }
 
             progress {
@@ -15,19 +16,20 @@
             .customProgress {
                 width: 10em;
                 height: 2em;
-                --value: 100%;
+                /* --value: 100%; */
                 /* background-color: red; */
                 display: flex;
+                --myVal: calc(var(--value) * 1%);
             }
 
             .progressDone {
-                width: var(--value);
+                width: var(--myVal);
                 background-color: green;
                 height:100%;
             }
             
             .progressRemains {
-                width: calc(100% - var(--value));
+                width: calc(100% - var(--myVal));
                 background-color: red;
                 height: 100%;
             }
@@ -35,17 +37,29 @@
             .pokeHealth {
                 width: 10em;
                 height: 2em;
-                --value: 100%;
+                --myVal: calc(var(--value) * 1%);
+                /* --value: 100%; */
             }
 
             .pokeBar {
                 height: 100%;
-                width: var(--value);
-                --red: calc(100% - var(--value));
+                width: var(--myVal);
+                --red: calc(100% - var(--myVal));
                 --blue: 0%;
+                /* --blue: calc(100% - abs(100% - var(--value))); */
                 --col: rgb(var(--red), var(--green), var(--blue));
-                --green: var(--value);
+                --green: var(--myVal);
                 background-color: var(--col, purple);
+            }
+
+            .hueBar {
+                height:100%;
+                width: calc(var(--value) * 1%);
+                /* --check: calc(1 * var(--value)); */
+                --safeVal: clamp(1, var(--value), 100);
+                background-color: green;
+                filter: hue-rotate(calc(-180deg * (1 - (var(--safeVal) / 100))));
+                /* transform: rotate(calc(45deg + var(--check))); */
             }
         </style>
     </head>
@@ -59,13 +73,17 @@
             <progress max='100' value='30'></progress>
         </details>
 
-        <div class='customProgress' style='--value:60%'>
+        <div class='customProgress'>
             <span class='progressDone'></span>
             <span class='progressRemains'></span>
         </div>
 
         <div id='healthbar' class='pokeHealth'>
             <div class='pokeBar'></div>
+        </div>
+
+        <div class='pokeHealth'>
+            <div class='hueBar'></div>
         </div>
     </body>
     <script src='index.js'></script>
