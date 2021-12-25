@@ -54,9 +54,39 @@ const circle = (text, root) => {
     }
 }
 
+const shake = (text, root) => {
+    for (let l in text) {
+        const spn = document.createElement('span')
+        spn.innerText = text[l]
+        spn.style.display = 'inline-block'
+        spn.style.width = text[l] === ' ' ? '.5ch' : ''
+        spn.animate([
+            {transform: 'translate(-.1em, 0em'},
+            {transform: 'translate(.1em, .1em'},
+            {transform: 'translate(-.1em, -.1em'},
+            {transform: 'translate(.1em, 0em'},
+            {transform: 'translate(-.1em, .1em'},
+            {transform: 'translate(0em, -.1em'}
+        ], {
+            duration: 200,
+            delay: 200 * (l/text.length),
+            direction: 'alternate',
+            iterations: Infinity,
+            easing: 'linear'
+        })
+
+        root.append(spn)
+    }
+}
+
 const block1 = document.createElement('div')
 main.append(block1)
 
 updown('Hello There', block1)
 
-circle('Welcome to the port!', main)
+const block2 = document.createElement('div')
+main.append(block2)
+
+circle('Welcome!', block2)
+
+shake('It is very scary!', main)
