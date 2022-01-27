@@ -7,7 +7,14 @@ function getRandomInt(max) {
 
 const tile = {
     target: [255, 255, 255, 255],
-    imageData: new ImageData(8, 8)
+    imageData: new ImageData(8, 8),
+    updateDelta: 0.1,
+    updateMax: 0.1
+}
+
+// White out the tile data
+for (const i in tile.imageData.data) {
+    tile.imageData.data[i] = 255
 }
 
 const redInput = document.createElement('input')
@@ -65,32 +72,6 @@ ctx.fillRect(0,0,640,480)
 
 const tileData = ctx.getImageData(0, 0, 16, 16)
 
-// const getNewValue = (value) => {
-//     if (value === 0) {
-//         return 1
-//     }
-//     if (value === 255) {
-//         return 254
-//     }
-//     const delta = getRandomInt(3) -1 // -1, 0 or 1
-//     return value + delta
-// }
-
-// // Have a randomly fizzing tile
-// const randomiseTile = () => {
-//     const data = tileData.data
-//     // const randomValue = getRandomInt(255)
-
-//     for (let i = 0; i < data.length; i+=4) {
-//         const value = getNewValue(data[i])
-//         data[i] = value
-//         data[i+1] = value
-//         data[i+2] = value
-//         data[i+3] = 255
-//     }
-//     return tileData
-// }
-
 // Game Loop
 {
     let last = 0
@@ -102,10 +83,13 @@ const tileData = ctx.getImageData(0, 0, 16, 16)
         // Clear screen
         // ctx.clearRect(0,0,640,480)
 
-        // Tile drawing logic
-        updateTile(tile)
-
-        ctx.putImageData(tile.imageData, 0, 0)
+        // Tile update logic
+        tile.updateDelta -= delta
+        if (tile.updateDelta < 0) {
+            tile.updateDelta = tile.updateMax
+            updateTile(tile)
+            ctx.putImageData(tile.imageData, 0, 0)
+        }
 
         window.requestAnimationFrame(step)
     }
