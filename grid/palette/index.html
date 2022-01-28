@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <style>
+            body {
+                color: white;
+                background-color: black;
+                --palette0: hsl(0, 100%, 50%);
+                --palette1: hsl(50, 100%, 50%);
+                --palette2: hsl(100, 100%, 50%);
+                --palette3: hsl(150, 100%, 50%);
+                --palette4: hsl(200, 100%, 50%);
+                --palette5: hsl(250, 100%, 50%);
+            }
+            #grid {
+                display: grid;
+                outline: 1px solid;
+                grid-template-columns: repeat(6, 1em);
+                grid-template-columns: repeat(6, 1em);
+                width: fit-content;
+                height: fit-content;
+            }
+        </style>
+    </head>
+    <body>
+        <div id='grid'></div>
+        <div id='controls'></div>
+    </body>
+    <script src='index.js'></script>
+</html>
