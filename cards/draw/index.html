@@ -13,10 +13,28 @@
                 height: 90vh;
                 margin:auto;
             }
+            #deck {
+                position: absolute;
+                width: 15em;
+                height: 25em;
+                border: .2em solid grey;
+                top: 5em;
+                right: 5em;
+            }
+            #hand {
+                position: absolute;
+                width: 70vw;
+                height: 25em;
+                border: .2em solid grey;
+                bottom: 0;
+                left: 0;
+            }
         </style>
     </head>
     <body>
         <div id='board'>
+            <div id="deck"></div>
+            <div id="hand"></div>
         </div>
     </body>
     <script src='../support/card.js'></script>

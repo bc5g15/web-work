@@ -1,19 +1,21 @@
 const board = document.getElementById('board')
+const deckElement = document.getElementById('deck')
+const handElement = document.getElementById('hand') 
 
 const singleCard = buildCard('FRONT TEXT', 'BACK TEXT', true)
 board.append(singleCard.elem)
 
-
-
 const hand = []
-const handPos = {
-    bottom: '1em',
-}
+const handPos = (card, offset) => ({
+    x: `${handElement.offsetLeft + (card.offsetWidth/2 * offset)}px`,
+    y: `${handElement.offsetTop}px`
+})
+
 const deck = []
-const deckPos = {
-    right: '5em',
-    top: '5em'
-}
+const deckPos = () => ({
+    x: `${deckElement.offsetLeft}px`,
+    y: `${deckElement.offsetTop}px`
+})
 
 const buildDeck = () => {
     for (let i = 0; i < 52; i++) {
@@ -24,20 +26,20 @@ const buildDeck = () => {
     }
 }
 
+deck.push(singleCard)
 buildDeck()
 
 
-deck.push(singleCard)
 
 
 const drawScreen = (hand, deck) => {
     
     deck.forEach(card => {
-        setCardPosition(card, deckPos)
+        setCardPosition(card, deckPos())
     })
 
-    hand.forEach(card => {
-        setCardPosition(card, handPos)
+    hand.forEach((card, i) => {
+        setCardPosition(card, handPos(card.elem, i))
     })
 }
 drawScreen(hand, deck)
@@ -47,7 +49,7 @@ const magicButton = document.createElement('button')
 magicButton.innerText = 'CLICK ME'
 magicButton.onclick = () => {
     if (deck.length) {
-        const card = deck.shift()
+        const card = deck.pop()
         hand.push(card)
         drawScreen(hand, deck)
 

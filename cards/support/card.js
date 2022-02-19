@@ -70,11 +70,8 @@ const flipCard = (card) => {
  * @param {card} card 
  * @param {*} param1 
  */
-const setCardPosition = (card, {top, left, bottom, right}) => {
-    console.log(top, left, bottom, right)
+const setCardPosition = (card, {x, y}) => {
     const elem = card.elem
-    elem.style.top = top ?? null
-    elem.style.left = left ?? null
-    elem.style.right = right ?? null
-    elem.style.bottom = bottom ?? null
+    elem.style.left = x
+    elem.style.top = y
 }
