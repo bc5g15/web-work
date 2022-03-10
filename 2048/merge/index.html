@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <style>
+            body {
+                color: white;
+                background-color: black;
+            }
+            #stack {
+                height: 90vh;
+                width: 10em;
+                outline: 1px solid;
+                position:relative;
+                margin: auto;
+            }
+            .box {
+                height: 5%;
+                width: 9em;
+                margin-left: 0.5em;
+                position: absolute;
+                display: flex;
+                flex-direction: column;
+                text-align: center;
+                justify-content: space-around;
+                background-color: aqua;
+                color: black;
+                border-radius: 5rem;
+                outline: 1px solid;
+                transform-origin: center;
+                transition: bottom 300ms linear;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="stack"></div>
+        <button id="merge">Merge</button>
+        <button id="add">Add</button>
+    </body>
+    <script src='index.js'></script>
+</html>
