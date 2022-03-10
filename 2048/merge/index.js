@@ -35,8 +35,17 @@ for (let i = 0; i < 16; i++) {
 
 reposition(boxes)
 
-const merge = (root, boxA, boxB) => {
+const updateValue = ({box, value}) => {
+    box.innerText = value
+    box.style.backgroundColor = `hsl(${value}, 100%, 50%)`
+}
+
+const merge = (boxA, boxB) => {
     boxA.value += boxB.value
+    updateValue(boxA)
+}
+
+const mergeAnimation = (root, boxA, boxB) => {
     const endPosition = boxA.box.style.bottom
     boxB.box.animate([
         {bottom: endPosition,
@@ -49,23 +58,19 @@ const merge = (root, boxA, boxB) => {
     })
 }
 
-
-
 const mergeBoxes = (boxes, root) => {
-
     if (boxes.length === 0) return
 
     const temp = []
-
+    const merges = []
     let base = boxes.shift()
 
-    let offset = 0
     while (boxes.length > 0) {
-        offset++
         let current = boxes.shift()
 
         if (base.value === current.value) {
-            merge(root, base, current)
+            merge(base, current)
+            merges.push(() => mergeAnimation(root, base, current))
             continue
         }
         temp.push(base)
@@ -74,6 +79,7 @@ const mergeBoxes = (boxes, root) => {
     boxes.push(...temp, base)
 
     reposition(boxes)
+    merges.forEach(e => e())
 }
 
 mergeButton.onclick = () => {
@@ -84,3 +90,12 @@ addButton.onclick = () => {
     boxes.push(makeBox(2,  stack))
     reposition(boxes)
 }
+
+const addBox = () => {
+    boxes.push(makeBox(2, stack))
+    reposition(boxes)
+}
+
+setInterval(() => {
+    addBox()
+}, 800)
