@@ -28,7 +28,7 @@ const grid = [
 
 const cloneGrid = (grid) => grid.map(i => i.map(j => j))
 
-const spawnTwoBlock = (grid, field) => {
+const spawnTwoBlock = (grid, root) => {
     const positions = [0,1,2,3]
     const possiblePositions = []
     positions.forEach(i => positions.forEach(j => {
@@ -41,18 +41,92 @@ const spawnTwoBlock = (grid, field) => {
         // Game Over
     }
 
-    const newGrid = cloneGrid(grid)
+    // const newGrid = cloneGrid(grid)
 
     const [top, left] = possiblePositions[randomInt(possiblePositions.length)]
     const block = makeBlock(top, left, 2)
-    newGrid[top][left] = block
-    field.append(block.block)
+    grid[top][left] = block
+    root.append(block.block)
     block.block.animate([
         {transform: 'scale(0)'},
         {transform: 'scale(100%)'}
     ], {
         duration: 300
     })
+}
+
+const reposition = (grid) => grid.forEach((line, top) => line.forEach((item, left) => {
+    if (!item) return
+    const {block: block} = item
+    block.style.top = `${top * 25}%`
+    block.style.left = `${left * 25}%`
+}))
+
+// Assume we always shift towards 0
+const mergeLine = (line, root) => {
+    if (line.length === 0) return
+    if (line.every(a => a===null)) return
+
+    const merge = (blockA, blockB) => {
+        blockA.value += blockB.value
+        const {block, value} = blockA
+        block.innerText = value
+        block.style.backgroundColor = 'red'
+    }
+
+    const mergeAnimation = (root, blockA, blockB) => {
+        const endTop = blockA.style.top
+        const endLeft = blockA.style.left
+        blockB.animate([
+            {left: endLeft,
+            top: endTop,
+            transform: 'scale(0)'}
+        ], {
+            duration: 300
+        }).finished.finally(() => {
+            root.removeChild(blockB)
+        })
+    }
+
+    const temp = []
+    const merges = []
+
+    const nulls = []
+    let base = false
+    let current = false
+    while (line.length > 0) {
+        current = line.pop()
+        if (current === null) {
+            nulls.push(current)
+            continue
+        }
+
+        if (!base) {
+            base = current
+            continue
+        }
+
+        if (base.value === current.value) {
+            merge(base, current)
+            console.log(base, current)
+            // merges.push(() => mergeAnimation(root, base.block, current.block))
+            mergeAnimation(root, base.block, current.block)
+            nulls.push(null)
+            temp.push(base)
+            base = false
+            continue
+        }
+        temp.push(base)
+        base = current
+    } 
+
+    temp.reverse()
+    if (base) {
+        line.push(base, ...temp, ...nulls)
+    } else {
+        line.push(...temp, ...nulls)
+    }
+    return merges
 }
 
 const shiftLine = (line, positionFunction) => {
@@ -84,3 +158,25 @@ const shiftLeft = (grid) => {
 // demoBlocks()
 
 spawnTwoBlock(grid, field)
+
+document.addEventListener('keydown', (key) => {
+    let merges = []
+    const shifts = {
+        'ArrowLeft': () => {
+            merges = grid.flatMap(line => mergeLine(line, field))
+        },
+        'ArrowRight': () => {
+            merges = grid.flatMap(line => {
+                line.reverse()
+                const m = mergeLine(line, field)
+                line.reverse()
+                return m
+            })
+        }
+    }
+    shifts[key.code]()
+    console.table(grid)
+    merges.filter(i => i !== undefined).forEach(e => e())
+    reposition(grid)
+    spawnTwoBlock(grid, field)
+})
