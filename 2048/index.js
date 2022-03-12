@@ -77,7 +77,7 @@ const mergeAnimation = (blockA, blockB) => {
 }
 
 // Assume we always shift towards 0
-const mergeLine = (line, root) => {
+const mergeLine = (line) => {
     if (line.length === 0) return
     if (line.every(a => a===null)) return
 
@@ -111,7 +111,7 @@ const mergeLine = (line, root) => {
             console.log(base, current)
             // merges.push(() => mergeAnimation(root, base.block, current.block))
             merges.push([base, current])
-            mergeAnimation(root, base.block, current.block)
+            // mergeAnimation(root, base.block, current.block)
             nulls.push(null)
             temp.push(base)
             base = false
@@ -161,10 +161,12 @@ const shiftLeft = (grid) => {
 spawnTwoBlock(grid, field)
 
 document.addEventListener('keydown', (key) => {
+    const knownKeys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown']
+    if (!knownKeys.includes(key.code)) return
     let merges = []
     const shifts = {
         'ArrowLeft': () => {
-            merges = grid.flatMap(line => mergeLine(line, field))
+            merges = grid.flatMap(line => mergeLine(line))
         },
         'ArrowRight': () => {
             merges = grid.flatMap(line => {
@@ -173,6 +175,35 @@ document.addEventListener('keydown', (key) => {
                 line.reverse()
                 return m
             })
+        },
+        'ArrowUp': () => {
+            const regrid = [[], [], [], []]
+            grid.forEach((line, top) => line.forEach((block, left) => {
+                regrid[left][top] = block
+            }))
+
+            merges = regrid.flatMap(line => mergeLine(line))
+
+            regrid.forEach((line, top) => line.forEach((block, left) => {
+                grid[left][top] = block
+            }))
+        },
+        'ArrowDown': () => {
+            const regrid = [[], [], [], []]
+            grid.forEach((line, top) => line.forEach((block, left) => {
+                regrid[left][top] = block
+            }))
+
+            merges = regrid.flatMap(line => {
+                line.reverse()
+                const m = mergeLine(line)
+                line.reverse()
+                return m
+            })
+
+            regrid.forEach((line, top) => line.forEach((block, left) => {
+                grid[left][top] = block
+            }))
         }
     }
     shifts[key.code]()
