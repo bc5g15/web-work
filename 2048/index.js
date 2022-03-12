@@ -62,6 +62,20 @@ const reposition = (grid) => grid.forEach((line, top) => line.forEach((item, lef
     block.style.left = `${left * 25}%`
 }))
 
+const mergeAnimation = (blockA, blockB) => {
+    const endTop = blockA.style.top
+    const endLeft = blockA.style.left
+    blockB.animate([
+        {left: endLeft,
+        top: endTop,
+        transform: 'scale(0)'}
+    ], {
+        duration: 300
+    }).finished.finally(() => {
+        blockB.remove()
+    })
+}
+
 // Assume we always shift towards 0
 const mergeLine = (line, root) => {
     if (line.length === 0) return
@@ -71,22 +85,8 @@ const mergeLine = (line, root) => {
         blockA.value += blockB.value
         const {block, value} = blockA
         block.innerText = value
-        block.style.backgroundColor = 'red'
     }
 
-    const mergeAnimation = (root, blockA, blockB) => {
-        const endTop = blockA.style.top
-        const endLeft = blockA.style.left
-        blockB.animate([
-            {left: endLeft,
-            top: endTop,
-            transform: 'scale(0)'}
-        ], {
-            duration: 300
-        }).finished.finally(() => {
-            root.removeChild(blockB)
-        })
-    }
 
     const temp = []
     const merges = []
@@ -110,6 +110,7 @@ const mergeLine = (line, root) => {
             merge(base, current)
             console.log(base, current)
             // merges.push(() => mergeAnimation(root, base.block, current.block))
+            merges.push([base, current])
             mergeAnimation(root, base.block, current.block)
             nulls.push(null)
             temp.push(base)
@@ -176,7 +177,7 @@ document.addEventListener('keydown', (key) => {
     }
     shifts[key.code]()
     console.table(grid)
-    merges.filter(i => i !== undefined).forEach(e => e())
+    merges.filter(i => i !== undefined).forEach(([a, b]) => mergeAnimation(a.block, b.block))
     reposition(grid)
     spawnTwoBlock(grid, field)
 })
