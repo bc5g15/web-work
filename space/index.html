@@ -7,10 +7,38 @@
                 background-color: black;
                 color: white;
             }
+            #field {
+                width: min(50vw, 50vh);
+                height: min(50vw, 50vh);
+                margin: auto;
+                margin-top: 10vh;
+                position: relative;
+                outline: 1px solid;
+            }
+            #player {
+                position: absolute;
+                border-radius: 20% 20% 0 0;
+                background-color: antiquewhite;
+                outline: white;
+                bottom: 1%;
+                left: 10%;
+                width: 10%;
+                height: 5%;
+            }
+            .enemy {
+                position: absolute;
+                border-radius: 100%;
+                background-color: goldenrod;
+                width: 7%;
+                height: 7%;
+                outline: 1px solid blue;
+            }
         </style>
     </head>
     <body>
-        
+        <div id="field">
+            <div id="player"></div>
+        </div>
     </body>
     <script src='index.js'></script>
 </html>
