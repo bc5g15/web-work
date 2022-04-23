@@ -37,7 +37,7 @@ const backdrop = createSVGElem('rect')
 setAttributes(backdrop, {
     'width': '100%',
     'height': '100%',
-    'fill': 'blue'
+    'fill': '#636363'
 })
 root.append(backdrop)
 
@@ -88,5 +88,21 @@ root.append(createShape('polyline', {
     points: "60 110 65 120 70 115 75 130 80 125 85 140 90 135 95 150 100 145",
     stroke: 'orange',
     fill: 'transparent',
+    'stroke-width': 5
+}))
+
+// Polygon
+root.append(createShape('polygon', {
+    points: "50 160 55 180 70 180 60 190 65 205 50 195 35 205 40 190 30 180 45 180",
+    stroke: 'green',
+    fill: 'green',
+    'stroke-width': 5
+}))
+
+// Path
+root.append(createShape('path', {
+    d: "M20,230 Q40,205 50,230 T90,230",
+    fill: 'none',
+    stroke: 'purple',
     'stroke-width': 5
 }))
