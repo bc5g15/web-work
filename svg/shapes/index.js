@@ -76,3 +76,17 @@ root.append(createShape('ellipse', {
     stroke: 'red', fill: 'transparent', 
     'stroke-width': 5
 }))
+
+// Line
+root.append(createShape('line', {
+    x1: 10, x2: 50, y1: 110, y2: 150,
+    stroke: 'orange', 'stroke-width': 5
+}))
+
+// Polyline
+root.append(createShape('polyline', {
+    points: "60 110 65 120 70 115 75 130 80 125 85 140 90 135 95 150 100 145",
+    stroke: 'orange',
+    fill: 'transparent',
+    'stroke-width': 5
+}))
