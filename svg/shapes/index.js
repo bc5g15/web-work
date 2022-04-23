@@ -62,3 +62,17 @@ root.append(createShape('rect', {
     stroke: 'black', fill: 'transparent',
     'stroke-width': 5
 }))
+
+// Circle
+root.append(createShape('circle', {
+    cx: 25, cy: 75, r: 20,
+    stroke: 'red', fill: 'transparent',
+    'stroke-width': 5
+}))
+
+// Ellipse
+root.append(createShape('ellipse', {
+    cx: 75, cy: 75, rx: 20, ry: 5,
+    stroke: 'red', fill: 'transparent', 
+    'stroke-width': 5
+}))
