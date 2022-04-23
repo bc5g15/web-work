@@ -16,16 +16,24 @@ const setAttributes = (element, attributes) => {
     })
 }
 
+/**
+ * @param {string} name 
+ * @param {Object} attributes 
+ * @returns {SVGElement}
+ */
+const createShape = (name, attributes) => {
+    const element = createSVGElem(name)
+    setAttributes(element, attributes)
+    return element
+}
+
 const root = createSVGElem('svg')
 
 root.setAttribute('width', 1000)
-root.setAttribute('height', 1000)
+root.setAttribute('height', 600)
 
 
 const backdrop = createSVGElem('rect')
-// backdrop.setAttribute('width', '100%')
-// backdrop.setAttribute('height', '100%')
-// backdrop.setAttribute('fill', 'red')
 setAttributes(backdrop, {
     'width': '100%',
     'height': '100%',
@@ -34,3 +42,23 @@ setAttributes(backdrop, {
 root.append(backdrop)
 
 document.body.append(root)
+
+// Rectangle
+root.append(createShape('rect', {
+    x: 10,
+    y: 10,
+    width: 30,
+    height: 30,
+    stroke: 'black',
+    fill: 'transparent',
+    'stroke-width': 5
+}))
+
+// Rectangle Rounded Corners
+root.append(createShape('rect', {
+    x: 60, y: 10,
+    rx: 10, ry: 10,
+    width: 30, height: 30,
+    stroke: 'black', fill: 'transparent',
+    'stroke-width': 5
+}))
