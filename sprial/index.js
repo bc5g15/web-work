@@ -19,6 +19,7 @@ const makeSvgElem = (type) => document.createElementNS('http://www.w3.org/2000/s
 
 const lineElem = makeSvgElem('polyline');
 lineElem.style.stroke = 'white';
+lineElem.id = 'spiral-line'
 root.append(lineElem);
 
 const drawPoints = (v, c, w, maxPoints) => {
