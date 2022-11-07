@@ -13,7 +13,7 @@
  * @param {string} front 
  * @param {string} back
  * @param {boolean} faceup 
- * @returns card
+ * @returns {card} 
  */
 const buildCard = (front, back, faceup) => {
     const card = document.createElement('div')
