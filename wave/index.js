@@ -13,7 +13,7 @@ ctx.clearRect(0,0,300,300);
 ctx.fillStyle = "white"
 
 const drawPoint = (x, y) => {
-    ctx.fillRect(x, y, 1, 1)
+    ctx.fillRect(x, y, 1, 6)
 }
 
 for (let t = 0; t < 300; t++) {
