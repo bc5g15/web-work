@@ -33,10 +33,10 @@ const tileData = ctx.getImageData(0, 0, 16, 16)
 // ctx.putImageData(tileData, 100, 100)
 
 const getNewValue = (value) => {
-    if (value === 0) {
+    if (value <= 0) {
         return 1
     }
-    if (value === 255) {
+    if (value >= 255) {
         return 254
     }
     const delta = getRandomInt(3) -1 // -1, 0 or 1
