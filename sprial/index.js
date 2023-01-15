@@ -46,6 +46,13 @@ const drawThickeningPoints = (v, c, w, maxPoints) => {
     }
     emptyNode(view);
 
+    const width = root.clientWidth;
+    const height = root.clientHeight;
+    console.log(width, height);
+
+    const xOffset = width/2;
+    const yOffset = height/2;
+
     // const points = [];
     let oldCoord = false;
     for (let i = 1; i < maxPoints; i++) {
@@ -55,10 +62,10 @@ const drawThickeningPoints = (v, c, w, maxPoints) => {
         }
         const newCoord = coords(i);
         const stepLine = makeSvgElem('line');
-        stepLine.setAttribute('x1', oldCoord.x + 100);
-        stepLine.setAttribute('y1', oldCoord.y + 100);
-        stepLine.setAttribute('x2', newCoord.x + 100);
-        stepLine.setAttribute('y2', newCoord.y + 100);
+        stepLine.setAttribute('x1', oldCoord.x + xOffset);
+        stepLine.setAttribute('y1', oldCoord.y + yOffset);
+        stepLine.setAttribute('x2', newCoord.x + xOffset);
+        stepLine.setAttribute('y2', newCoord.y + yOffset);
         stepLine.style.stroke = 'white'
         // stepLine.setAttribute('stroke', 'white');
         stepLine.style.strokeWidth = ((i+1) * 0.05);
