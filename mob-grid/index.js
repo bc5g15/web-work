@@ -10,6 +10,8 @@ const shuffleArray = array => {
     }
 }
 
+const pickRandom = array => array[Math.floor(Math.random()*array.length)];
+
 const drawGrid = (size) => {
     const cellSize = 64;
 
@@ -20,7 +22,7 @@ const drawGrid = (size) => {
     s.gridTemplateRows = `repeat(${size}, 1fr)`;
     s.outline = '1px solid white';
     s.width = `${cellSize * size}px`;
-    s.height = `${cellSize * size}py`;
+    s.height = `${cellSize * size}px`;
 
     /** @type {Map<string, HTMLElement>} */
     const addresses = new Map();
@@ -33,7 +35,8 @@ const drawGrid = (size) => {
             s.height = '100%';
             s.gridRow = i+1;
             s.gridColumn = j+1;
-            e.append(s);
+            s.outline = '1px solid blue'
+            e.append(block);
             addresses.set(stringify(j, i), block);
         }
     }
@@ -75,10 +78,19 @@ const drawGrid = (size) => {
     };
 }
 
-const mobs = new Map();
+const mapManager = () => {
+    const size = 2;
+    const {
+        element: grid,
+        setCell,
+        clearCell
+    } = drawGrid(size);
+}
+
+let mobs = new Map();
 
 const start = () => {
-    const size = 7;
+    const size = 2;
     const {
         element: grid,
         setCell,
@@ -93,10 +105,68 @@ const start = () => {
         // pick random space on grid
         const [x, y] = spaces.pop();
         const address = stringify(x,y);
+        const elem = document.createElement('div');
+        elem.innerText = `X${i}`
+        elem.style.width = 'fit-content';
+        elem.style.height = '100%';
+        elem.style.margin = 'auto';
         // Use stringified version as address
         mobs.set(address, {
-            name: `Mob ${i}`
+            name: `Mob ${i}`,
+            position: [x, y],
+            element: elem,
         });
+        setCell(x, y, elem);
     }
 
+    document.body.append(grid);
+    
+    const legalPositions = (x, y) => {
+        const result = [];
+        if (x > 0) {
+            result.push([x-1, y]);
+        }
+        if (x < size-1) {
+            result.push([x+1, y]);
+        }
+        if (y > 0) {
+            result.push([x, y-1]);
+        }
+        if (y < size-1) {
+            result.push([x, y+1]);
+        }
+        return result;
+    }
+
+    const step = () => {
+        // For each mobile object
+        let newMobs = new Map();
+        mobs.forEach((v) => {
+            const [x, y] = v.position;
+            const [nx, ny] = pickRandom(legalPositions(x, y));
+
+            const newAddr = stringify(nx, ny);
+            if (newMobs.has(newAddr)) {
+                console.log('Collision');
+                const collider = newMobs.get(newAddr);
+                // Do something clever with the collider
+                clearCell(nx, ny);
+                newMobs.delete(newAddr);
+            } else {
+                setCell(nx, ny, v.element);
+                v.position = [nx, ny];
+                newMobs.set(newAddr, v);
+            }
+            console.log(newMobs);
+        });
+        mobs = newMobs;
+    } 
+    // update button
+    const button = document.createElement('button');
+    button.innerText = 'step'
+    button.onclick = step;
+    document.body.append(button);
+
 }
+
+start();
