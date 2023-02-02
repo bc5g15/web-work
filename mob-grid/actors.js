@@ -39,7 +39,7 @@ const buildActorManager = () => {
     }
 }
 
-const buildPositionManager = () => {
+const buildPositionManager = (size) => {
     const positionMap = new Map();
     const idMap = new Map();
 
@@ -69,86 +69,101 @@ const buildPositionManager = () => {
         return positionMap.has(stringify(address));
     }
 
+    const listPositions = () => {
+        return [...positionMap.entries()];
+    }
+
+    const isLegalMove = (address) => {
+        const [x, y] = address;
+        return x >= 0 &&
+            x < size &&
+            y >= 0 &&
+            y < size;
+    }
+
     return {
         getByPosition,
         getById,
         setPosition,
         deleteByPosition,
         checkPosition,
+        listPositions,
+        isLegalMove,
     }
 }
 
 
-// const buildGrid = (size) => {
-//     const cellSize = 64;
+const buildGrid = (size) => {
+    const cellSize = 64;
 
-//     const e = document.createElement('div');
-//     let s = e.style;
-//     s.display = 'grid';
-//     s.gridTemplateColumns = `repeat(${size}, 1fr)`;
-//     s.gridTemplateRows = `repeat(${size}, 1fr)`;
-//     s.outline = '1px solid white';
-//     s.width = `${cellSize * size}px`;
-//     s.height = `${cellSize * size}px`;
+    const e = document.createElement('div');
+    let s = e.style;
+    s.display = 'grid';
+    s.gridTemplateColumns = `repeat(${size}, 1fr)`;
+    s.gridTemplateRows = `repeat(${size}, 1fr)`;
+    s.outline = '1px solid white';
+    s.width = `${cellSize * size}px`;
+    s.height = `${cellSize * size}px`;
 
-//     /** @type {Map<string, HTMLElement>} */
-//     const addresses = new Map();
+    /** @type {Map<string, HTMLElement>} */
+    const addresses = new Map();
 
-//     for (let i = 0; i < size; i++) {
-//         for (let j = 0; j < size; j++) {
-//             const block = document.createElement('div');
-//             s = block.style;
-//             s.width = '100%';
-//             s.height = '100%';
-//             s.gridRow = i+1;
-//             s.gridColumn = j+1;
-//             s.outline = '1px solid blue'
-//             e.append(block);
-//             addresses.set(stringify(j, i), block);
-//         }
-//     }
+    for (let i = 0; i < size; i++) {
+        for (let j = 0; j < size; j++) {
+            const block = document.createElement('div');
+            s = block.style;
+            s.width = '100%';
+            s.height = '100%';
+            s.gridRow = i+1;
+            s.gridColumn = j+1;
+            s.outline = '1px solid blue'
+            e.append(block);
+            addresses.set(stringify([j, i]), block);
+        }
+    }
 
-//     /**
-//      * Exported function to set the member of a cell
-//      * @param {number} x 
-//      * @param {number} y 
-//      * @param {HTMLElement} elem
-//      */
-//     const setCell = (x, y, elem) => {
-//         const address = stringify(x, y);
-//         if (!addresses.has(address)) {
-//             return false;
-//         }
+    /**
+     * Exported function to set the member of a cell
+     * @param {number} x 
+     * @param {number} y 
+     * @param {HTMLElement} elem
+     */
+    const setCell = (address, elem) => {
+        if (!addresses.has(address)) {
+            return false;
+        }
 
-//         const block = addresses.get(address);
-//         block.append(elem);
-//         return true;
-//     }
+        const block = addresses.get(address);
+        block.append(elem);
+        return true;
+    }
 
-//     const clearCell = (x, y) => {
-//         const address = stringify(x, y);
-//         if (!addresses.has(address)) {
-//             return false;
-//         }
+    const clearCell = (address) => {
+        if (!addresses.has(address)) {
+            return false;
+        }
 
-//         const block = addresses.get(address);
-//         while(block.firstChild) {
-//             block.removeChild(block.firstChild);
-//         }
-//         return true;
-//     }
+        const block = addresses.get(address);
+        while(block.firstChild) {
+            block.removeChild(block.firstChild);
+        }
+        return true;
+    }
     
-//     return {
-//         element: e,
-//         setCell,
-//         clearCell
-//     };
-// }
+    return {
+        element: e,
+        setCell,
+        clearCell
+    };
+}
 
 const buildCollisionActor = (actor1, actor2) => {
+    const elem = document.createElement('div');
+    elem.innerText = 'Explosion!'
     return {
         moveLeft: false,
-        name: `Explosion from ${actor1.name} and ${actor2.name}`
+        name: `Explosion from ${actor1.name} and ${actor2.name}`,
+        element: elem
     }
 }
 
@@ -210,7 +225,32 @@ const moveAndCollide = (actorId, actorManager, positionManager) => {
 
 }
 
+const buildWorld = (size, actorManager) => {
+    const {element, setCell, clearCell} = buildGrid(size);
+
+    document.body.append(element);
+
+    const positionManager = buildPositionManager(size);
+
+    const displayChanges = (pm) => {
+        const { listPositions } = pm;
+        const positions = listPositions();
+        positions.forEach(([address, id]) => {
+            const { element } = actorManager.getActor(id);
+            setCell(address, element)
+        })
+    }
+
+    return {
+        positionManager,
+        displayChanges
+    }
+}
+
 const start = () => {
+
+    const elemOne = document.createElement('div');
+    elemOne.innerText = 'bagel';
     const actorOne = {
         name: 'bagel',
         type: 'mover',
@@ -218,8 +258,11 @@ const start = () => {
             direction: 'right'
         },
         moveLeft: false,
+        element: elemOne
     }
 
+    const elemTwo = document.createElement('div');
+    elemTwo.innerText = 'donut';
     const actorTwo = {
         name: 'donut',
         type: 'mover',
@@ -227,10 +270,11 @@ const start = () => {
             direction: 'left'
         },
         moveLeft: true,
+        element: elemTwo
     }
 
     const actorManager = buildActorManager();
-    const positionManager = buildPositionManager();
+    const { positionManager, displayChanges }  = buildWorld(7, actorManager);
 
     const actorOneId = actorManager.addActor(actorOne);
     const actorTwoId = actorManager.addActor(actorTwo);
@@ -245,6 +289,7 @@ const start = () => {
             const actor = actors.pop();
             moveAndCollide(actor, actorManager, positionManager);
         }
+        displayChanges(positionManager);
     }
     document.body.append(button);
 }
