@@ -1,4 +1,5 @@
 const stringify = ([x, y]) => `${x},${y}`;
+const pickRandom = array => array[Math.floor(Math.random()*array.length)];
 
 const buildActorManager = () => {
     const state = new Map();
@@ -73,7 +74,7 @@ const buildPositionManager = (size) => {
         return [...positionMap.entries()];
     }
 
-    const isLegalMove = (address) => {
+    const isLegalSpace = (address) => {
         const [x, y] = address;
         return x >= 0 &&
             x < size &&
@@ -88,7 +89,7 @@ const buildPositionManager = (size) => {
         deleteByPosition,
         checkPosition,
         listPositions,
-        isLegalMove,
+        isLegalSpace,
     }
 }
 
@@ -172,14 +173,18 @@ const buildCollisionActor = (actor1, actor2) => {
     return {
         moveLeft: false,
         name: `Explosion from ${actor1.name} and ${actor2.name}`,
-        element: elem
+        element: elem,
+        type: 'mover',
+        typeDetails: {
+            direction: 'random'
+        }
     }
 }
 
 
 const moveAndCollide = (actorId, actorManager, positionManager) => {
     const { getActor, deleteActor, hasActor, addActor } = actorManager;
-    const { getByPosition, getById, setPosition, deleteByPosition, checkPosition } = positionManager;
+    const { getByPosition, getById, setPosition, deleteByPosition, checkPosition, isLegalSpace } = positionManager;
         
     if (!hasActor(actorId)) {
         return;
@@ -188,49 +193,67 @@ const moveAndCollide = (actorId, actorManager, positionManager) => {
     const position = getById(actorId);
 
     if (!position) {
-        // Actor is not on grid, no control necessary
+        // Actor is not on grid, no control necessary (yet)
         return;
     }
 
     // Calculate movement somehow
     const details = getActor(actorId);
-    const [x, y] = position;
-    let nx = 0;
-    if (details.moveLeft) {
-        nx = x - 1;
-    } else {
-        nx = x + 1;
-    }
+    if (details.type === 'mover') {
+        const [x, y] = position;
+        let nx = x;
+        let ny = y;
+        const { direction } = details.typeDetails;
+        if (direction === 'left' && isLegalSpace([x-1, y])) {
+            nx -= 1;
+        }
 
-    if (checkPosition([nx, y])) {
-        // Collision!
-        console.log(`Collision at ${nx}, ${y}!`);
-        const collider = getByPosition([nx, y]);
+        if (direction === 'right' && isLegalSpace([x+1, y])) {
+            nx += 1;
+        }
 
-        // Clear the colliding entities
-        deleteByPosition([nx, y]);
-        deleteByPosition([x, y]);
+        if (direction === 'random') {
+            let [tx, ty] = pickRandom([
+                [x+1, y],
+                [x-1, y],
+                [x, y+1],
+                [x, y-1],
+            ].filter(v => isLegalSpace(v)))
+            nx = tx;
+            ny = ty;
+        }
 
-        // Create a new entity based on the two entities
-        const them = getActor(collider);
-        const collision = buildCollisionActor(details, them);
+        if (checkPosition([nx, ny])) {
+            // Collision!
+            console.log(`Collision at ${nx}, ${ny}!`);
+            const collider = getByPosition([nx, ny]);
 
-        // Add the collision actor and remove the colliding entities
-        const collisionId = addActor(collision);
-        deleteActor(actorId);
-        deleteActor(collider);
+            // Clear the colliding entities
+            deleteByPosition([nx, ny]);
+            deleteByPosition([x, y]);
 
-        deleteByPosition([x, y]);
-        deleteByPosition([nx, y]);
+            // Create a new entity based on the two entities
+            const them = getActor(collider);
+            const collision = buildCollisionActor(details, them);
 
-        setPosition([nx, y], collisionId);
+            // Add the collision actor and remove the colliding entities
+            const collisionId = addActor(collision);
+            deleteActor(actorId);
+            deleteActor(collider);
+
+            deleteByPosition([x, y]);
+            deleteByPosition([nx, ny]);
+
+            setPosition([nx, ny], collisionId);
+            return;
+        }
+
+        // Otherwise this is a normal move
+        console.log(`${details.name} move to ${nx}, ${ny}`);
+        deleteByPosition(position);
+        setPosition([nx, ny], actorId);
         return;
     }
-
-    // Otherwise this is a normal move
-    console.log(`${details.name} move to ${nx}, ${y}`);
-    deleteByPosition(position);
-    setPosition([nx, y], actorId);
 
 }
 
@@ -267,8 +290,7 @@ const start = () => {
         typeDetails: {
             direction: 'right'
         },
-        moveLeft: false,
-        element: elemOne
+        element: elemOne,
     }
 
     const elemTwo = document.createElement('div');
@@ -279,8 +301,7 @@ const start = () => {
         typeDetails: {
             direction: 'left'
         },
-        moveLeft: true,
-        element: elemTwo
+        element: elemTwo,
     }
 
     const actorManager = buildActorManager();
