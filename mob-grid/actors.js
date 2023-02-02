@@ -149,11 +149,20 @@ const buildGrid = (size) => {
         }
         return true;
     }
+
+    const clearAll = () => {
+        addresses.forEach((block) => {
+            while(block.firstChild) {
+                block.removeChild(block.firstChild);
+            }
+        })
+    };
     
     return {
         element: e,
         setCell,
-        clearCell
+        clearCell,
+        clearAll
     };
 }
 
@@ -226,13 +235,14 @@ const moveAndCollide = (actorId, actorManager, positionManager) => {
 }
 
 const buildWorld = (size, actorManager) => {
-    const {element, setCell, clearCell} = buildGrid(size);
+    const {element, setCell, clearAll} = buildGrid(size);
 
     document.body.append(element);
 
     const positionManager = buildPositionManager(size);
 
     const displayChanges = (pm) => {
+        clearAll();
         const { listPositions } = pm;
         const positions = listPositions();
         positions.forEach(([address, id]) => {
