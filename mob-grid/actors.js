@@ -66,8 +66,6 @@ const buildPositionManager = () => {
     }
 
     const checkPosition = (address) => {
-        console.log(positionMap);
-        console.log(address);
         return positionMap.has(stringify(address));
     }
 
