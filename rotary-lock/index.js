@@ -13,6 +13,10 @@ const shuffle = array => {
     return newArr;
 }
 
+const delay = (time) => new Promise(resolve => {
+    setTimeout(() => resolve(), time)
+})
+
 const buildPuzzle = (count) => {
 
     const root = document.createElement('div');
@@ -42,11 +46,20 @@ const buildPuzzle = (count) => {
         lightContainer.append(elem);
 
         // Behaviour
-        const setValue = (value) => {
-            elem.style.fill = value ? 'green' : 'black';
+        const setColour = (colour) => {
+            elem.style.fill = colour;
         }
-        lightMap.set(i, setValue);
+        lightMap.set(i, setColour);
     }
+
+    // Add a success circle in the center
+    const winCircle = makeSvgElem('circle');
+    winCircle.setAttribute('r', '5vmin');
+    winCircle.style.stroke = 'green';
+    winCircle.style.strokeWidth = '0.2em';
+    winCircle.setAttribute('cx', '25vmin');
+    winCircle.setAttribute('cy', '25vmin');
+    lightContainer.append(winCircle);
 
     // Build buttons
     const buttonContainer = document.createElement('div');
@@ -55,23 +68,29 @@ const buildPuzzle = (count) => {
     let current = null;
     const active = new Set();
 
-    const pressLogic = (i) => {
+    const pressLogic = async (i) => {
+
+        // Have a delay to show which button was pressed. 
+        const setColour = lightMap.get(i);
+        setColour('yellow');
+        await delay(150);
+
         if (current === null || i === (current + 1) % count)  {
             current = i;
-            const setValue = lightMap.get(i);
-            setValue(true);
+            setColour('green');
             active.add(i);
 
             if (active.size === count) {
                 // Victory condition
                 console.log('Done!')
+                winCircle.style.fill = 'green';
             }
             return;
         } 
 
         // If wrong button
         for (v of lightMap.values()) {
-            v(false);
+            v('black');
         }
         current = null;
         active.clear();
