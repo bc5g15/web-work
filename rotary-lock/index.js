@@ -39,6 +39,7 @@ const buildPuzzle = (count) => {
         s = elem.style;
         s.stroke = 'blue';
         s.fill = 'black';
+        s.strokeWidth = '0.2em';
         const left = (Math.cos((Math.PI * 2 / count) * i) * 20) +25;
         const top = (Math.sin((Math.PI * 2 / count) * i) * 20) +25;
         elem.setAttribute('cx', `${left}vmin`);
