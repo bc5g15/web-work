@@ -35,14 +35,34 @@ dragBlock.style.outline = '0.2em solid red';
 let x1 = 0;
 let y1 = 0;
 
+let drawing = false;
+
 document.onmousedown = (ev) => {
     console.log(ev.clientX, ev.clientY);
     x1 = ev.clientX;
     y1 = ev.clientY;
+    drawing = true;
+}
+
+document.onmousemove = (ev) => {
+    if (drawing) {
+        const x2 = ev.clientX;
+        const y2 = ev.clientY;
+    
+        const left = Math.min(x1, x2);
+        const top = Math.min(y1, y2);
+        const width = Math.max(x1, x2) - left;
+        const height = Math.max(y1, y2) - top;
+        // console.log(left, top, width, height);
+        dragBlock.style.width = `${width}px`;
+        dragBlock.style.height = `${height}px`;
+        dragBlock.style.left = `${left}px`;
+        dragBlock.style.top = `${top}px`;
+    }
 }
 
 document.onmouseup = (ev) => {
-    console.log(ev.movementX, ev.movementY);
+    // console.log(ev.movementX, ev.movementY);
 
     const x2 = ev.clientX;
     const y2 = ev.clientY;
@@ -56,6 +76,8 @@ document.onmouseup = (ev) => {
     dragBlock.style.height = `${height}px`;
     dragBlock.style.left = `${left}px`;
     dragBlock.style.top = `${top}px`;
+
+    drawing = false;
 }
 
 document.body.append(dragBlock);
