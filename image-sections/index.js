@@ -37,16 +37,12 @@ let y1 = 0;
 
 document.onmousedown = (ev) => {
     console.log(ev.clientX, ev.clientY);
-    // dragBlock.style.left = `${ev.clientX}px`;
-    // dragBlock.style.top = `${ev.clientY}px`;
     x1 = ev.clientX;
     y1 = ev.clientY;
 }
 
 document.onmouseup = (ev) => {
     console.log(ev.movementX, ev.movementY);
-    // dragBlock.style.width = `${ev.movementX}px`;
-    // dragBlock.style.height = `${ev.movementY}px`;
 
     const x2 = ev.clientX;
     const y2 = ev.clientY;
